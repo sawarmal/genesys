@@ -22,8 +22,7 @@ jobs:
 
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
-
-      
+  
       - name: 'Deploy'
         uses: 'deliverybot/helm@v1'
         with:
