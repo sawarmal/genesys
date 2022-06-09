@@ -23,6 +23,15 @@ spec:
     spec:
       containers:
         - name: frontend-container
-          image: quantiphiviramms/frontend:v1
+          image: quantiphiviramms/frontend:v2
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: config-volume
+              mountPath: "/etc/nginx/nginx.conf"
+              subpath: "nginx.conf"
+      volumes:
+        - name: config-volume
+          configMap:
+            name: myconfigmap
+
