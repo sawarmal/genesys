@@ -30,7 +30,7 @@ spec:
             - name: nginx
               mountPath: "/etc/nginx/nginx.conf"
               readOnly: true
-    volumes:
-    - name: nginx
-      configMap:
-        name: config-nginx
+      volumes:
+      - name: nginx
+        configMap:
+          name: config-nginx
