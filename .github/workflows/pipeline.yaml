@@ -7,10 +7,10 @@ on:
 
 jobs:
   kubernetes:
-    runs-on: ubuntu-latest
+    runs-on: 'ubuntu-latest'
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: 'Checkout Repository'
+        uses: 'actions/checkout@v2'
 
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
