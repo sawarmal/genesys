@@ -22,5 +22,19 @@ jobs:
 
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
+
+      - name: authenticating into cluster
+        run: |
+          gcloud config set project testing-336413
+          gcloud container clusters get-credentials cluster-1 --region=us-central1-c
   
+      - name: setup Helm3
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+          helm plugin install https://github.com/databus23/helm-diff
       
+      - name: helm mychart
+        run: |
+          helm install mychart ./charts/mychart
