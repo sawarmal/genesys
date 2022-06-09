@@ -1,0 +1,32 @@
+name: Build and Deploy to GKE
+
+on: 
+  push:
+    branches: 
+    - 'main'
+
+jobs:
+  kubernetes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      
+     - name: 'Deploy'
+      uses: 'deliverybot/helm@v1'
+      with:
+        release: 'demo-web-app'
+        namespace: 'default'
+        chart: 'mychart'
