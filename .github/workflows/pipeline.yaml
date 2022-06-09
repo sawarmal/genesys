@@ -24,9 +24,9 @@ jobs:
         run: 'gcloud info'
 
       
-     - name: 'Deploy'
-      uses: 'deliverybot/helm@v1'
-      with:
-        release: 'demo-web-app'
-        namespace: 'default'
-        chart: 'mychart'
+      - name: 'Deploy'
+        uses: 'deliverybot/helm@v1'
+        with:
+          release: 'demo-web-app'
+          namespace: 'default'
+          chart: 'mychart'
