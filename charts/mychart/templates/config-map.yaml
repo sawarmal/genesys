@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: configmap
+  name: config-nginx
 data:
-  nginx.conf: |-
+  target: |-
 {{ .Files.Get "nginx.conf" | indent 4}}
