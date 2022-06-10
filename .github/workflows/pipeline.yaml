@@ -29,9 +29,7 @@ jobs:
       - name: 'Configure Docker'
         run: |- 
           gcloud --quiet auth configure-docker
-      - name: 'Get commit id'
-        uses: docket/meta
-
+          gcloud auth configure-docker us-central1-docker.pkg.dev
         
       - name: 'Build Frontend Docker image'
         run: |-
@@ -39,7 +37,7 @@ jobs:
         
       - name: 'Tag Frontend Docker image'
         run: |-
-          docker tag frontend us-central1-docker.pkg.dev/testing-336413/Genesys/Frontend:${{ github.sha }}
+          docker tag frontend us-central1-docker.pkg.dev/testing-336413/genesys/frontend:${{ github.sha }}
       
       - name: Set the Frontend SHA
         run: |
@@ -47,7 +45,7 @@ jobs:
       
       - name: 'Push Frontend Docker image'
         run: |-
-          docker push us-central1-docker.pkg.dev/testing-336413/Genesys/Frontend:${{ github.sha }}
+          docker push us-central1-docker.pkg.dev/testing-336413/genesys/frontend:${{ github.sha }}
   
   Backend-docker-image:
     runs-on: 'ubuntu-latest'
@@ -55,6 +53,8 @@ jobs:
     steps:
       - name: 'Checkout Repository'
         uses: 'actions/checkout@v2'
+        with:
+          ref: backend
 
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
@@ -70,14 +70,15 @@ jobs:
       - name: 'Configure Docker'
         run: |- 
           gcloud --quiet auth configure-docker
+          gcloud auth configure-docker us-central1-docker.pkg.dev
         
       - name: 'Build Backend Docker image'
         run: |-
-          docker build -t Backend ./backend
+          docker build -t backend ./backend
         
       - name: 'Tag Backend Docker image'
         run: |-
-          docker tag Backend us-central1-docker.pkg.dev/testing-336413/Genesys/Backend:${{ github.sha }}
+          docker tag backend us-central1-docker.pkg.dev/testing-336413/genesys/backend:${{ github.sha }}
 
       - name: Set the Frontend SHA
         run: |
@@ -85,7 +86,7 @@ jobs:
       
       - name: 'Push Backend Docker image'
         run: |-
-          docker push us-central1-docker.pkg.dev/testing-336413/Genesys/Backend:${{ github.sha }}
+          docker push us-central1-docker.pkg.dev/testing-336413/genesys/backend:${{ github.sha }}
 
   helm-package:
     runs-on: 'ubuntu-latest'
@@ -118,7 +119,7 @@ jobs:
       
       - name: push helm chart
         run: |-
-          helm push my-chart-0.1.0.tgz oci://us-central1-docker.pkg.dev/testing-336413/Genesys-helm-chart
+          helm push my-chart-0.1.0.tgz oci://us-central1-docker.pkg.dev/testing-336413/genesys-helm-chart
 
   kubernetes:
     runs-on: 'ubuntu-latest'
@@ -157,7 +158,7 @@ jobs:
           if helm list -n $RELEASE_NAME | grep $RELEASE_NAME > /dev/null ; then if ! helm diff upgrade $RELEASE_NAME  --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}} --detailed-exitcode; then helm upgrade $RELEASE_NAME  --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}}; else echo "There is no changes for this release."; fi; else helm install $RELEASE_NAME  --version $CHART_VERSION -f $VALUES_PATH --dry-run; fi
         env: 
           CHART_VERSION: 0.1.0
-          REPO_URL: oci://us-central1-docker.pkg.dev/testing-336413/Genesys-helm-chart/my-chart
+          REPO_URL: oci://us-central1-docker.pkg.dev/testing-336413/genesys-helm-chart/my-chart
           RELEASE_NAME: my-chart
       
      
