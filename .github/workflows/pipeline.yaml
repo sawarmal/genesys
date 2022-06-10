@@ -76,7 +76,7 @@ jobs:
         
       - name: 'Tag Backend Docker image'
         run: |-
-          docker tag backend us-central1-docker.pkg.dev/testing-336413/genesys/Backend:${{ github.sha }}
+          docker tag backend us-central1-docker.pkg.dev/testing-336413/genesys/backend:${{ github.sha }}
 
       - name: Set the Frontend SHA
         run: |
