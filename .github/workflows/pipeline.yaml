@@ -84,7 +84,7 @@ jobs:
       
       - name: 'Push Backend Docker image'
         run: |-
-          docker push us-central1-docker.pkg.dev/testing-336413/genesys/Backend:${{ github.sha }}
+          docker push us-central1-docker.pkg.dev/testing-336413/genesys/backend:${{ github.sha }}
 
   helm-package:
     runs-on: 'ubuntu-latest'
