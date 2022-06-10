@@ -29,9 +29,6 @@ jobs:
       - name: 'Configure Docker'
         run: |- 
           gcloud --quiet auth configure-docker
-      - name: 'Get commit id'
-        uses: docket/meta
-
         
       - name: 'Build Frontend Docker image'
         run: |-
