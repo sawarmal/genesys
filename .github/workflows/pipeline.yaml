@@ -124,7 +124,7 @@ jobs:
       
       - name: push helm chart
         run: |-
-          helm push my-chart-0.1.0.tgz oci://us-central1-docker.pkg.dev/testing-336413/genesys-helm-chart
+          helm push my-chart-0.1.0.tgz oci://us-central1-docker.pkg.dev/testing-336413/genesys
 
   kubernetes:
     runs-on: 'ubuntu-latest'
