@@ -168,7 +168,7 @@ jobs:
         env: 
           CHART_VERSION: 0.1.0
           REPO_LOCATION: oci://us-central1-docker.pkg.dev/testing-336413/genesys
-          REPO_URL: oci://us-central1-docker.pkg.dev/testing-336413/genesys/my-chart:0.1.0
+          REPO_URL: oci://us-central1-docker.pkg.dev/testing-336413/genesys/my-chart
           RELEASE_NAME: my-chart
       
      
