@@ -69,6 +69,7 @@ jobs:
       - name: 'Configure Docker'
         run: |- 
           gcloud --quiet auth configure-docker
+          gcloud auth configure-docker us-central1-docker.pkg.dev
         
       - name: 'Build Backend Docker image'
         run: |-
