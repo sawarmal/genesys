@@ -52,6 +52,8 @@ jobs:
     steps:
       - name: 'Checkout Repository'
         uses: 'actions/checkout@v2'
+        with:
+          ref: backend
 
       - id: 'auth'
         uses: 'google-github-actions/auth@v0'
