@@ -164,7 +164,7 @@ jobs:
 
       - name: helm install 
         run: |
-          helm repo add $RELEASE_NAME $REPO_URL
+          helm repo add $RELEASE_NAME $REPO_LOCATION
           helm repo update
           if helm list -n $RELEASE_NAME | grep $RELEASE_NAME > /dev/null ; then if ! helm diff upgrade $RELEASE_NAME $REPO_URL  --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}} --detailed-exitcode; then helm upgrade $RELEASE_NAME $REPO_URL --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}}; else echo "There is no changes for this release."; fi; else helm install $RELEASE_NAME $REPO_URL  --version $CHART_VERSION -f $VALUES_PATH --dry-run; fi
         env: 
