@@ -144,6 +144,11 @@ jobs:
 
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
+      
+      - name: 'Configure Docker'
+        run: |- 
+          gcloud --quiet auth configure-docker
+          gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: authenticating into cluster
         run: |
@@ -159,8 +164,9 @@ jobs:
 
       - name: helm install 
         run: |
+          helm repo add $REPO_URL
           helm repo update
-          if helm list -n $RELEASE_NAME | grep $RELEASE_NAME > /dev/null ; then if ! helm diff upgrade $RELEASE_NAME  --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}} --detailed-exitcode; then helm upgrade $RELEASE_NAME  --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}}; else echo "There is no changes for this release."; fi; else helm install $RELEASE_NAME  --version $CHART_VERSION -f $VALUES_PATH --dry-run; fi
+          if helm list -n $RELEASE_NAME | grep $RELEASE_NAME > /dev/null ; then if ! helm diff upgrade $RELEASE_NAME $REPO_URL  --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}} --detailed-exitcode; then helm upgrade $RELEASE_NAME $REPO_URL --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}}; else echo "There is no changes for this release."; fi; else helm install $RELEASE_NAME $REPO_URL  --version $CHART_VERSION -f $VALUES_PATH --dry-run; fi
         env: 
           CHART_VERSION: 0.1.0
           REPO_URL: oci://us-central1-docker.pkg.dev/testing-336413/genesys-helm-chart/my-chart
