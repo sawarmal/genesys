@@ -70,7 +70,7 @@ jobs:
         
       - name: 'Build Backend Docker image'
         run: |-
-          docker build -t Backend ./backend
+          docker build -t Backend .
         
       - name: 'Tag Backend Docker image'
         run: |-
