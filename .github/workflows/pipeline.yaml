@@ -105,6 +105,11 @@ jobs:
 
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
+        
+      - name: 'Configure Docker'
+        run: |- 
+          gcloud --quiet auth configure-docker
+          gcloud auth configure-docker us-central1-docker.pkg.dev
   
       - name: setup Helm3
         run: |
