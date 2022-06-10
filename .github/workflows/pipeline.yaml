@@ -32,7 +32,7 @@ jobs:
         
       - name: 'Build Frontend Docker image'
         run: |-
-          docker build -t frontend ./frontend
+          docker build -t frontend .
         
       - name: 'Tag Frontend Docker image'
         run: |-
@@ -70,11 +70,11 @@ jobs:
         
       - name: 'Build Backend Docker image'
         run: |-
-          docker build -t Backend .
+          docker build -t backend .
         
       - name: 'Tag Backend Docker image'
         run: |-
-          docker tag Backend us-central1-docker.pkg.dev/testing-336413/genesys/Backend:${{ github.sha }}
+          docker tag backend us-central1-docker.pkg.dev/testing-336413/genesys/Backend:${{ github.sha }}
 
       - name: Set the Frontend SHA
         run: |
