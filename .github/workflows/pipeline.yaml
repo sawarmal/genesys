@@ -122,6 +122,19 @@ jobs:
           ./get_helm.sh
           helm plugin install https://github.com/databus23/helm-diff
 
+      - name: update values.yaml for frontend-tag
+        run: |
+          cluster=$(gcloud container images list-tags us-central1-docker.pkg.dev/testing-336413/genesys/frontend --format=json)
+          echo ${cluster[0]} | jq -r '.[].tags[0]'
+          sed -r 's/^(\s*)(frontend-tag\s*:\s*v1\s*$)/\1frontend-tag: ${cluster[0]} | jq -r '.[].tags[0]'/' ./charts/mychart/values.yaml
+
+      - name: update values.yaml for backend-tag
+        run: |
+          cluster=$(gcloud container images list-tags us-central1-docker.pkg.dev/testing-336413/genesys/backend --format=json)
+          echo ${cluster[0]} | jq -r '.[].tags[0]'
+          sed -r 's/^(\s*)(backend-tag\s*:\s*v1\s*$)/\backend-tag: ${cluster[0]} | jq -r '.[].tags[0]'/' ./charts/mychart/values.yaml
+
+
       - name: package helm chart
         run: |-
           helm package ./charts/mychart
@@ -168,7 +181,7 @@ jobs:
 
       - name: helm install 
         run: |
-          if helm list -n $RELEASE_NAME | grep $RELEASE_NAME > /dev/null ; then if ! helm diff upgrade $RELEASE_NAME $REPO_URL  --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}} --detailed-exitcode; then helm upgrade $RELEASE_NAME $REPO_URL --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}}; else echo "There is no changes for this release."; fi; else helm install $RELEASE_NAME $REPO_URL  --version $CHART_VERSION; fi
+          if helm list -n $RELEASE_NAME | grep $RELEASE_NAME > /dev/null ; then if ! helm diff upgrade $RELEASE_NAME $REPO_URL  --version $CHART_VERSION --detailed-exitcode; then helm upgrade $RELEASE_NAME $REPO_URL --version $CHART_VERSION ; else echo "There is no changes for this release."; fi; else helm install $RELEASE_NAME $REPO_URL  --version $CHART_VERSION; fi
         env: 
           CHART_VERSION: 0.1.0
           REPO_LOCATION: oci://us-central1-docker.pkg.dev/testing-336413/genesys
