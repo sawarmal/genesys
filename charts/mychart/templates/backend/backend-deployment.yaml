@@ -19,6 +19,6 @@ spec:
     spec:
       containers:
         - name: {{ .Release.Name }}-backend-container
-          image:  "{{ .Values.backend.image }}:{{ .Values.backend.tag }}"
+          image:  "{{ .Values.backend.image }}:{{ .Values.backend.backend-tag }}"
           ports:
             - containerPort: {{ .Values.backend.port}}
