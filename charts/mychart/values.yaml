@@ -3,7 +3,7 @@ backend:
   image: us-central1-docker.pkg.dev/testing-336413/genesys/backend
   imagePullPolicy: Always
   replicas: 1
-  backend-tag: backend-v1
+  backendTag: backend-v1
 
 frontend:
   port: 80
@@ -11,4 +11,4 @@ frontend:
   imagePullPolicy: Always
   replicas: 1
   ingress: true
-  frontend-tag: frontend-v1
+  frontendTag: frontend-v1

@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: {{ .Release.Name }}-frontend-container
-          image: "{{ .Values.frontend.image }}:{{ .Values.frontend.frontend-tag }}"
+          image: "{{ .Values.frontend.image }}:{{ .Values.frontend.frontendTag }}"
           ports:
             - containerPort: {{ .Values.frontend.port }}
           volumeMounts:
