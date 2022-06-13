@@ -7,6 +7,10 @@ on:
     - 'backend'
     - 'helm'
 
+env:
+  frontend-tag: "v1"
+  backend-tag: "v1"
+
 jobs:
   Frontend-docker-image:
     runs-on: 'ubuntu-latest'
@@ -41,7 +45,7 @@ jobs:
       
       - name: Set the Frontend SHA
         run: |
-          echo "frontend-tag=${{ github.sha }}" >> $GITHUB_ENV
+          echo "{frontend-tag}=${{ github.sha }}" >> $GITHUB_ENV
       
       - name: 'Push Frontend Docker image'
         run: |-
@@ -82,7 +86,7 @@ jobs:
 
       - name: Set the Frontend SHA
         run: |
-          echo "backend-tag=${{ github.sha }}" >> $GITHUB_ENV
+          echo "{backend-tag}=${{ github.sha }}" >> $GITHUB_ENV
       
       - name: 'Push Backend Docker image'
         run: |-
