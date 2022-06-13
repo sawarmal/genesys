@@ -125,14 +125,14 @@ jobs:
       - name: update values.yaml for frontend-tag
         run: |
           cluster=$(gcloud container images list-tags us-central1-docker.pkg.dev/testing-336413/genesys/frontend --format=json)
-          demo-frontend=$(echo ${cluster[0]} | jq -c '.[].tags[0]')
-          sed -i "s/\bfrontend-v1\b/${demo-frontend}'/g" ./charts/mychart/values.yaml
+          demofrontend=$(echo ${cluster[0]} | jq -c '.[].tags[0]')
+          sed -i "s/\bfrontend-v1\b/${demofrontend}'/g" ./charts/mychart/values.yaml
           
       - name: update values.yaml for backend-tag
         run: |
           cluster=$(gcloud container images list-tags us-central1-docker.pkg.dev/testing-336413/genesys/backend --format=json)
-          demo-backend=$(echo ${cluster[0]} | jq -c '.[].tags[0]')
-          sed -i "s/\bbackend-v1\b/${demo-backend}'/g" ./charts/mychart/values.yaml
+          demobackend=$(echo ${cluster[0]} | jq -c '.[].tags[0]')
+          sed -i "s/\bbackend-v1\b/${demobackend}'/g" ./charts/mychart/values.yaml
 
 
       - name: package helm chart
