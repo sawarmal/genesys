@@ -134,6 +134,9 @@ jobs:
           demobackend=$(echo ${cluster[0]} | jq -c '.[].tags[0]')
           sed -ir "s/\bbackend-v1\b/${demobackend}/g" ./charts/mychart/values.yaml
 
+      - name: values.yaml file
+        run: |
+          cat ./charts/mychart/values.yaml
 
       - name: package helm chart
         run: |-
