@@ -7,6 +7,10 @@ on:
     - 'backend'
     - 'helm'
 
+env:
+  frontend-tag: "v1"
+  backend-tag: "v1"
+
 jobs:
   Frontend-docker-image:
     runs-on: 'ubuntu-latest'
@@ -41,7 +45,7 @@ jobs:
       
       - name: Set the Frontend SHA
         run: |
-          echo "frontend-tag=${{ github.sha }}" >> $GITHUB_ENV
+          echo "{frontend-tag}=${{ github.sha }}" >> $GITHUB_ENV
       
       - name: 'Push Frontend Docker image'
         run: |-
@@ -82,7 +86,7 @@ jobs:
 
       - name: Set the Frontend SHA
         run: |
-          echo "backend-tag=${{ github.sha }}" >> $GITHUB_ENV
+          echo "{backend-tag}=${{ github.sha }}" >> $GITHUB_ENV
       
       - name: 'Push Backend Docker image'
         run: |-
@@ -105,6 +109,11 @@ jobs:
 
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
+        
+      - name: 'Configure Docker'
+        run: |- 
+          gcloud --quiet auth configure-docker
+          gcloud auth configure-docker us-central1-docker.pkg.dev
   
       - name: setup Helm3
         run: |
@@ -119,7 +128,7 @@ jobs:
       
       - name: push helm chart
         run: |-
-          helm push my-chart-0.1.0.tgz oci://us-central1-docker.pkg.dev/testing-336413/genesys-helm-chart
+          helm push my-chart-0.1.0.tgz oci://us-central1-docker.pkg.dev/testing-336413/genesys
 
   kubernetes:
     runs-on: 'ubuntu-latest'
@@ -139,6 +148,11 @@ jobs:
 
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
+      
+      - name: 'Configure Docker'
+        run: |- 
+          gcloud --quiet auth configure-docker
+          gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: authenticating into cluster
         run: |
@@ -154,11 +168,11 @@ jobs:
 
       - name: helm install 
         run: |
-          helm repo update
-          if helm list -n $RELEASE_NAME | grep $RELEASE_NAME > /dev/null ; then if ! helm diff upgrade $RELEASE_NAME  --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}} --detailed-exitcode; then helm upgrade $RELEASE_NAME  --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}}; else echo "There is no changes for this release."; fi; else helm install $RELEASE_NAME  --version $CHART_VERSION -f $VALUES_PATH --dry-run; fi
+          if helm list -n $RELEASE_NAME | grep $RELEASE_NAME > /dev/null ; then if ! helm diff upgrade $RELEASE_NAME $REPO_URL  --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}} --detailed-exitcode; then helm upgrade $RELEASE_NAME $REPO_URL --version $CHART_VERSION --set frontend.tag=${{ env.frontend-tag}} --set backend.tag=${{ env.backend-tag}}; else echo "There is no changes for this release."; fi; else helm install $RELEASE_NAME $REPO_URL  --version $CHART_VERSION; fi
         env: 
           CHART_VERSION: 0.1.0
-          REPO_URL: oci://us-central1-docker.pkg.dev/testing-336413/genesys-helm-chart/my-chart
+          REPO_LOCATION: oci://us-central1-docker.pkg.dev/testing-336413/genesys
+          REPO_URL: oci://us-central1-docker.pkg.dev/testing-336413/genesys/my-chart
           RELEASE_NAME: my-chart
       
      
