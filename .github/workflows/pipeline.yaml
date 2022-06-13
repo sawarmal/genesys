@@ -141,7 +141,7 @@ jobs:
       
       - name: push helm chart
         run: |-
-          helm push my-chart-0.1.0.tgz oci://us-central1-docker.pkg.dev/testing-336413/genesys
+          helm push my-chart-demo-0.1.0.tgz oci://us-central1-docker.pkg.dev/testing-336413/genesys
 
   kubernetes:
     runs-on: 'ubuntu-latest'
@@ -185,8 +185,8 @@ jobs:
         env: 
           CHART_VERSION: 0.1.0
           REPO_LOCATION: oci://us-central1-docker.pkg.dev/testing-336413/genesys
-          REPO_URL: oci://us-central1-docker.pkg.dev/testing-336413/genesys/my-chart
-          RELEASE_NAME: my-chart
+          REPO_URL: oci://us-central1-docker.pkg.dev/testing-336413/genesys/my-chart-demo
+          RELEASE_NAME: my-chart-demo
       
      
 
