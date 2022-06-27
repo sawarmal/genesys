@@ -37,4 +37,5 @@ jobs:
       
       - name: helm mychart
         run: |
-          helm upgrade mychart ./charts/mychart
+         #helm upgrade mychart ./charts/mychart
+          helm install mychart .charts/mychart
