@@ -37,5 +37,5 @@ jobs:
       
       - name: helm mychart
         run: |
-         #helm upgrade mychart ./charts/mychart
-          helm install sawarmalhelmchart ./charts/mychart
+          helm upgrade sawarmalhelmchart ./charts/mychart
+          #helm install sawarmalhelmchart ./charts/mychart
