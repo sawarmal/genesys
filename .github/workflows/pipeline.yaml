@@ -39,3 +39,6 @@ jobs:
         run: |
           helm upgrade sawarmalhelmchart ./charts/mychart
           #helm install sawarmalhelmchart ./charts/mychart
+          
+          ###
+          
